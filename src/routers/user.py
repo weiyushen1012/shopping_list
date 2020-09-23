@@ -1,5 +1,6 @@
 import json
 import hashlib
+from datetime import datetime
 
 from flask import Blueprint, request, jsonify
 
@@ -50,6 +51,8 @@ def update_user(user_id):
 
     if 'password' in body:
         user.password = md5_password(body.get('password'))
+
+    user.updated = datetime.utcnow()
 
     db.session.commit()
 
