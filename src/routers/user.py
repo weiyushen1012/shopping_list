@@ -19,6 +19,8 @@ def serialize_user(user):
     return {
         'id': user.id,
         'email': user.email,
+        'created': user.created,
+        'updated': user.updated
     }
 
 

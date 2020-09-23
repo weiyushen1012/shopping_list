@@ -10,4 +10,4 @@ class User(db.Model):
     updated = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
 
     def __repr__(self):
-        return f'<User {self.id}>'
+        return f'<User(id={self.id},email={self.email},created={self.created},updated={self.updated}>'
