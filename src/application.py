@@ -1,31 +1,32 @@
+import os
+
 from flask import Flask
-from configs.db_config import *
-from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from dotenv import load_dotenv
+from flask_migrate import Migrate
+
+from configs.db_config import register_db
+
+from models.init import db
+
+from routers.home import home_api
+from routers.user import users_api
+from routers.auth import auth_api
 
 project_folder = os.path.expanduser('~/shopping_list')
 load_dotenv(os.path.join(project_folder, '.env'))
 
 application = Flask(__name__)
-# CORS(application, resources={r"/*": {"origins": "http://localhost:63343"}})
 CORS(application)
+register_db(application)
 
-application.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_username}:{db_pwd}@{db_host}/{db_name}"
-application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(application)
+db.init_app(application)
 
+migrate = Migrate(application, db)
 
-@application.route('/')
-def home():
-    return 'Shopping list API', 200
-
+application.register_blueprint(users_api)
+application.register_blueprint(auth_api)
+application.register_blueprint(home_api)
 
 if __name__ == '__main__':
-    from routers.user import users_api
-    from routers.auth import auth_api
-
-    application.register_blueprint(users_api)
-    application.register_blueprint(auth_api)
-
     application.run(debug=True)

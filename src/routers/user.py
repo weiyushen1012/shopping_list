@@ -5,7 +5,7 @@ from flask import Blueprint, request, jsonify
 
 from configs.token_config import check_for_token
 from models.user import User
-from application import db
+from models.init import db
 
 users_api = Blueprint('users', __name__)
 
