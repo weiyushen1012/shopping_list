@@ -1,7 +1,7 @@
 import json
 import hashlib
 
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 
 from configs.token_config import check_for_token
 from models.user import User
@@ -14,10 +14,18 @@ def md5_password(password):
     return hashlib.md5(password.encode('utf8')).hexdigest()
 
 
+def serialize_user(user):
+    return {
+        'id': user.id,
+        'email': user.email,
+    }
+
+
 @users_api.route('/users')
 @check_for_token
 def get_users():
-    return 'users', 200
+    users = User.query.all()
+    return jsonify(list(map(serialize_user, users))), 200
 
 
 @users_api.route('/add_user', methods=['POST'])
@@ -26,7 +34,7 @@ def add_user():
     new_user = User(email=body["email"], password=md5_password(body["password"]))
     db.session.add(new_user)
     db.session.commit()
-    return '', 200
+    return {'message': 'user created', 'user': serialize_user(new_user)}, 200
 
 
 @users_api.route('/update_user/<user_id>', methods=['PUT'])
@@ -45,4 +53,4 @@ def update_user(user_id):
 
     db.session.commit()
 
-    return {'message': 'user updated'}, 200
+    return {'message': 'user updated', 'user': serialize_user(user)}, 200
