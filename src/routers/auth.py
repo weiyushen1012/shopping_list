@@ -24,7 +24,7 @@ def login():
             'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=TOKEN_EXPIRES)
         },
             SECRET_KEY)
-        return {'token': token.decode('utf-8')}
+        return {'token': token.decode('utf-8'), 'userId': user.id, "email": email}
     else:
         return {'message': 'Invalid email or password'}, 403
 
