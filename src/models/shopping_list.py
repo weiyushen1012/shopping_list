@@ -7,6 +7,7 @@ class ShoppingList(db.Model):
     created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
     updated = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    shopping_list_items = db.relationship('ShoppingListItem', backref='shopping_list', lazy=True)
 
     def __repr__(self):
         return f'<ShoppingList(id={self.id},created={self.created},updated={self.updated},user_id={self.user_id}>'
