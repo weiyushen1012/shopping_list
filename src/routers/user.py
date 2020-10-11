@@ -24,7 +24,7 @@ def serialize_user(user):
     }
 
 
-@users_api.route('/users')
+@users_api.route('/get_users', methods=['GET'])
 @check_for_token
 def get_users():
     users = User.query.all()

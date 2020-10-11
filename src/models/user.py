@@ -8,6 +8,7 @@ class User(db.Model):
     password = db.Column(db.String(80), nullable=False)
     created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
     updated = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
+    shopping_lists = db.relationship('ShoppingList', backref='user', lazy=True)
 
     def __repr__(self):
         return f'<User(id={self.id},email={self.email},created={self.created},updated={self.updated}>'
