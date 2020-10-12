@@ -38,7 +38,7 @@ def add_shopping_list(user_id):
     new_shopping_list = ShoppingList(user_id=user_id)
     db.session.add(new_shopping_list)
     db.session.commit()
-    return {'message': 'shopping list created', 'shopping_list': serialize_shopping_list(new_shopping_list)}, 200
+    return serialize_shopping_list(new_shopping_list), 200
 
 
 @shopping_lists_api.route('/get_shopping_lists/<user_id>', methods=['GET'])
@@ -56,8 +56,7 @@ def add_shopping_list_item(shopping_list_id):
                                               shopping_list_id=shopping_list_id)
     db.session.add(new_shopping_list_item)
     db.session.commit()
-    return {'message': 'shopping list item created',
-            'shopping_list_item': serialize_shopping_list_item(new_shopping_list_item)}
+    return serialize_shopping_list_item(new_shopping_list_item), 200
 
 
 @shopping_lists_api.route('/get_shopping_list_items/<shopping_list_id>', methods=['GET'])

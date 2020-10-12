@@ -37,7 +37,7 @@ def add_user():
     new_user = User(email=body["email"], password=md5_password(body["password"]))
     db.session.add(new_user)
     db.session.commit()
-    return {'message': 'user created', 'user': serialize_user(new_user)}, 200
+    return serialize_user(new_user), 200
 
 
 @users_api.route('/update_user/<user_id>', methods=['PUT'])
