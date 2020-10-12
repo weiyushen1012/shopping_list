@@ -56,7 +56,8 @@ def add_shopping_list_item(shopping_list_id):
                                               shopping_list_id=shopping_list_id)
     db.session.add(new_shopping_list_item)
     db.session.commit()
-    return {'message': 'shopping list item created', 'shopping_list_item': serialize_shopping_list_item(new_shopping_list_item)}
+    return {'message': 'shopping list item created',
+            'shopping_list_item': serialize_shopping_list_item(new_shopping_list_item)}
 
 
 @shopping_lists_api.route('/get_shopping_list_items/<shopping_list_id>', methods=['GET'])
