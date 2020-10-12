@@ -4,8 +4,8 @@ from models.init import db
 
 class ShoppingListItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    created = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
-    updated = db.Column(db.DateTime, default=datetime.utcnow(), nullable=False)
+    created = db.Column(db.DateTime, nullable=False)
+    updated = db.Column(db.DateTime, nullable=False)
     shopping_list_id = db.Column(db.Integer, db.ForeignKey('shopping_list.id'), nullable=False)
 
     name = db.Column(db.String(1024), nullable=False)

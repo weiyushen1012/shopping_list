@@ -7,6 +7,8 @@ from configs.token_config import check_for_token
 from models.shopping_list import ShoppingList
 from models.shopping_list_item import ShoppingListItem
 
+from datetime import datetime
+
 shopping_lists_api = Blueprint('list', __name__)
 
 
@@ -35,7 +37,8 @@ def serialize_shopping_list_item(shopping_list_item):
 @shopping_lists_api.route('/add_shopping_list/<user_id>', methods=['POST'])
 @check_for_token
 def add_shopping_list(user_id):
-    new_shopping_list = ShoppingList(user_id=user_id)
+    current_time = datetime.utcnow()
+    new_shopping_list = ShoppingList(user_id=user_id, created=current_time, updated=current_time)
     db.session.add(new_shopping_list)
     db.session.commit()
     return serialize_shopping_list(new_shopping_list), 200

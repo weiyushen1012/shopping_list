@@ -33,8 +33,10 @@ def get_users():
 
 @users_api.route('/add_user', methods=['POST'])
 def add_user():
+    current_time = datetime.utcnow()
     body = json.loads(request.data)
-    new_user = User(email=body["email"], password=md5_password(body["password"]))
+    new_user = User(email=body["email"], password=md5_password(body["password"]), created=current_time,
+                    updated=current_time)
     db.session.add(new_user)
     db.session.commit()
     return serialize_user(new_user), 200
