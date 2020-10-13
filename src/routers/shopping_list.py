@@ -51,6 +51,14 @@ def get_shopping_lists(user_id):
     return jsonify(list(map(serialize_shopping_list, shopping_lists))), 200
 
 
+@shopping_lists_api.route('/delete_shopping_list/<shopping_list_id>', methods=['DELETE'])
+@check_for_token
+def delete_shopping_list(shopping_list_id):
+    ShoppingList.query.filter_by(id=shopping_list_id).delete()
+    db.session.commit()
+    return {'message': f'shopping list with id {shopping_list_id} has been deleted'}, 200
+
+
 @shopping_lists_api.route('/add_shopping_list_item/<shopping_list_id>', methods=['POST'])
 @check_for_token
 def add_shopping_list_item(shopping_list_id):
